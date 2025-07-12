@@ -1,0 +1,57 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold">読み取り結果</h1>
+    <%= link_to "新しい名刺を読み取る", new_business_card_path, 
+                class: "bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md" %>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <!-- 名刺画像 -->
+    <div>
+      <h2 class="text-lg font-semibold mb-4">アップロードした画像</h2>
+      <div class="border border-gray-300 rounded-lg p-4">
+        <%= image_tag @business_card.image, 
+                      class: "max-w-full h-auto rounded-md shadow-sm" if @business_card.image.attached? %>
+      </div>
+    </div>
+
+    <!-- 読み取り結果 -->
+    <div>
+      <h2 class="text-lg font-semibold mb-4">読み取り結果</h2>
+      <div class="space-y-4">
+        <div class="bg-gray-50 rounded-lg p-4">
+          <dl class="space-y-3">
+            <div>
+              <dt class="font-medium text-gray-700">氏名</dt>
+              <dd class="text-gray-900"><%= @business_card.full_name.presence || "取得できませんでした" %></dd>
+            </div>
+            <div>
+              <dt class="font-medium text-gray-700">会社名</dt>
+              <dd class="text-gray-900"><%= @business_card.company_name.presence || "取得できませんでした" %></dd>
+            </div>
+            <div>
+              <dt class="font-medium text-gray-700">部署</dt>
+              <dd class="text-gray-900"><%= @business_card.department.presence || "取得できませんでした" %></dd>
+            </div>
+            <div>
+              <dt class="font-medium text-gray-700">役職</dt>
+              <dd class="text-gray-900"><%= @business_card.post.presence || "取得できませんでした" %></dd>
+            </div>
+            <div>
+              <dt class="font-medium text-gray-700">電話番号</dt>
+              <dd class="text-gray-900"><%= @business_card.telephone_number.presence || "取得できませんでした" %></dd>
+            </div>
+            <div>
+              <dt class="font-medium text-gray-700">メールアドレス</dt>
+              <dd class="text-gray-900"><%= @business_card.mail.presence || "取得できませんでした" %></dd>
+            </div>
+            <div>
+              <dt class="font-medium text-gray-700">住所</dt>
+              <dd class="text-gray-900"><%= @business_card.address.presence || "取得できませんでした" %></dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
