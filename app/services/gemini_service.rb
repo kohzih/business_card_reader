@@ -22,23 +22,20 @@ class GeminiService
     return { success: false, error: 'Image not found' } unless image_attachment.attached?
 
     begin
-      client = Gemini.new(
-        credentials: {
-          service: 'generative-language-api',
-          api_key: Rails.application.credentials.google_api_key
-        },
-        options: { 
-          model: 'gemini-1.5-flash',
-          server_sent_events: false
-        }
-      )
+      # Configure Gemini client
+      Gemini.configure do |config|
+        config.access_token = Rails.application.credentials.google_api_key
+      end
+      
+      client = Gemini::Client.new
       
       # 画像をbase64エンコード
       image_data = image_attachment.blob.download
       base64_image = Base64.strict_encode64(image_data)
       
       response = client.generate_content(
-        {
+        parameters: {
+          model: "gemini-2.0-flash-exp",
           contents: [
             {
               parts: [

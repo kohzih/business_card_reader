@@ -72,8 +72,6 @@ GEM
       securerandom (>= 0.3)
       tzinfo (~> 2.0, >= 2.0.5)
       uri (>= 0.13.1)
-    addressable (2.8.7)
-      public_suffix (>= 2.0.2, < 7.0)
     ast (2.4.3)
     base64 (0.3.0)
     bcrypt_pbkdf (1.1.1)
@@ -99,18 +97,14 @@ GEM
     erubi (1.13.1)
     et-orbi (1.2.11)
       tzinfo
-    ethon (0.16.0)
-      ffi (>= 1.15.0)
-    event_stream_parser (1.0.0)
     faraday (2.13.2)
       faraday-net_http (>= 2.0, < 3.5)
       json
       logger
+    faraday-multipart (1.1.1)
+      multipart-post (~> 2.0)
     faraday-net_http (3.4.1)
       net-http (>= 0.5.0)
-    faraday-typhoeus (1.1.0)
-      faraday (~> 2.0)
-      typhoeus (~> 1.4)
     ffi (1.17.2-aarch64-linux-gnu)
     ffi (1.17.2-aarch64-linux-musl)
     ffi (1.17.2-arm-linux-gnu)
@@ -122,26 +116,8 @@ GEM
     fugit (1.11.1)
       et-orbi (~> 1, >= 1.2.11)
       raabro (~> 1.4)
-    gemini-ai (4.3.0)
-      event_stream_parser (~> 1.0)
-      faraday (~> 2.13, >= 2.13.2)
-      faraday-typhoeus (~> 1.1)
-      googleauth (~> 1.8)
-      typhoeus (~> 1.4, >= 1.4.1)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    google-cloud-env (2.3.1)
-      base64 (~> 0.2)
-      faraday (>= 1.0, < 3.a)
-    google-logging-utils (0.2.0)
-    googleauth (1.14.0)
-      faraday (>= 1.0, < 3.a)
-      google-cloud-env (~> 2.2)
-      google-logging-utils (~> 0.1)
-      jwt (>= 1.4, < 3.0)
-      multi_json (~> 1.11)
-      os (>= 0.9, < 2.0)
-      signet (>= 0.16, < 2.a)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     image_processing (1.14.0)
@@ -160,8 +136,6 @@ GEM
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
     json (2.12.2)
-    jwt (2.10.2)
-      base64
     kamal (2.7.0)
       activesupport (>= 7.0)
       base64 (~> 0.2)
@@ -190,7 +164,7 @@ GEM
     mini_mime (1.1.5)
     minitest (5.25.5)
     msgpack (1.8.0)
-    multi_json (1.16.0)
+    multipart-post (2.4.1)
     net-http (0.6.0)
       uri
     net-imap (0.5.9)
@@ -224,7 +198,6 @@ GEM
       racc (~> 1.4)
     nokogiri (1.18.8-x86_64-linux-musl)
       racc (~> 1.4)
-    os (1.1.4)
     ostruct (0.6.2)
     parallel (1.27.0)
     parser (3.3.8.0)
@@ -242,7 +215,6 @@ GEM
     psych (5.2.6)
       date
       stringio
-    public_suffix (6.0.2)
     puma (6.6.0)
       nio4r (~> 2.0)
     raabro (1.4.0)
@@ -320,16 +292,14 @@ GEM
       rubocop (>= 1.72)
       rubocop-performance (>= 1.24)
       rubocop-rails (>= 2.30)
+    ruby-gemini (0.1.0)
+      faraday (>= 1)
+      faraday-multipart (>= 1)
     ruby-progressbar (1.13.0)
     ruby-vips (2.2.4)
       ffi (~> 1.12)
       logger
     securerandom (0.4.1)
-    signet (0.20.0)
-      addressable (~> 2.8)
-      faraday (>= 0.17.5, < 3.a)
-      jwt (>= 1.5, < 3.0)
-      multi_json (~> 1.10)
     solid_cable (3.0.11)
       actioncable (>= 7.2)
       activejob (>= 7.2)
@@ -374,8 +344,6 @@ GEM
     turbo-rails (2.0.16)
       actionpack (>= 7.1.0)
       railties (>= 7.1.0)
-    typhoeus (1.4.1)
-      ethon (>= 0.9.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (3.1.4)
@@ -409,7 +377,6 @@ DEPENDENCIES
   bootsnap
   brakeman
   debug
-  gemini-ai
   image_processing (~> 1.2)
   importmap-rails
   jbuilder
@@ -418,6 +385,7 @@ DEPENDENCIES
   puma (>= 5.0)
   rails (~> 8.0.2)
   rubocop-rails-omakase
+  ruby-gemini
   solid_cable
   solid_cache
   solid_queue
