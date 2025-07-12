@@ -35,7 +35,7 @@ class GeminiService
       
       response = client.generate_content(
         parameters: {
-          model: "gemini-2.0-flash-exp",
+          model: "gemini-2.5-flash",
           contents: [
             {
               parts: [
