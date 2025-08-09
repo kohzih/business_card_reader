@@ -13,21 +13,48 @@
 4. `render.yaml`が自動検出される
 
 ### 2. 環境変数設定（自動設定済み）
-以下の環境変数が`render.yaml`で自動設定されます：
+`render.yaml` で以下が自動付与されます：
 - `RAILS_ENV=production`
 - `RAILS_SERVE_STATIC_FILES=true`
 - `RAILS_LOG_TO_STDOUT=true`
 - `SECRET_KEY_BASE`（自動生成）
 
-### 3. 永続ディスク設定
-SQLiteデータベース用に1GBの永続ディスクが自動設定されます：
-- マウントパス: `/opt/render/project/src/storage`
-- データベースファイルが保存される
+必要に応じてダッシュボードで `GEMINI_API_KEY` を追加してください。
 
-### 4. デプロイ実行
-1. "Deploy Blueprint" ボタンをクリック
-2. 初回デプロイには5-10分程度かかります
-3. デプロイ完了後、URLが発行される
+### 3. デプロイ実行（最速起動）
+1. "Deploy Blueprint" をクリック
+2. ビルド（assets:precompile）後、`startCommand` で `db:migrate` が毎回自動実行され Rails が起動します
+3. 初回は 5 分前後。完了後に公開 URL が発行されます
+
+## 現在の blueprint 抜粋
+```yaml
+services:
+	- type: web
+		env: ruby
+		buildCommand: "./bin/rails assets:precompile"
+		startCommand: "./bin/rails db:migrate && ./bin/rails server"
+		plan: free
+		# SQLite は永続化されず再起動/再デプロイでデータ消える
+```
+
+## データベースについて（重要）
+Free プランでは persistent disk が使えないため、SQLite ファイルはコンテナの一時領域に置かれ「再デプロイ / スリープ復帰」で消えます。
+
+用途が「動作確認・デモ」の間はそのままで OK ですが、データ保持したい場合は PostgreSQL への移行を推奨します。
+
+### PostgreSQL へ移行する流れ（概要）
+1. Render で "New +" → PostgreSQL を作成（Free tier 可）
+2. 接続文字列をコピーし Web Service の Environment に `DATABASE_URL` 追加
+3. Gemfile を変更:
+	 ```ruby
+	 gem "pg"
+	 gem "sqlite3", group: [:development, :test]
+	 ```
+4. `bundle install` → コミット & デプロイ
+5. Render の Shell か Background Job で `rails db:migrate` 実行（startCommand からは `db:migrate` を削除するのが望ましい）
+6. 正常動作を確認
+
+※ 本格運用に進む前に必ずこの移行を行うこと。
 
 ## デプロイ後の確認
 
@@ -40,13 +67,14 @@ SQLiteデータベース用に1GBの永続ディスクが自動設定されま�
 
 ## 注意事項
 
-### SQLite使用時の制約
-- **ゼロダウンタイムデプロイなし**: 更新時にアプリが一時停止
-- **単一インスタンスのみ**: スケールアウト不可
-- **個人学習用途**: 商用利用には PostgreSQL を推奨
+### SQLite（揮発）使用時の制約（現状）
+- データはデプロイ/リスタートごとに消える（persistent disk 未使用）
+- 単一インスタンス前提（ロック・同時書き込み耐性が弱い）
+- 商用利用不可。必ず PostgreSQL へ移行すること
 
 ### データベース初期化
-初回デプロイ時は空のデータベースが作成されます。
+`startCommand` に `db:migrate` が含まれているため、毎回最新スキーマに自動更新されます（揮発 DB 前提の割り切り）。
+PostgreSQL に移行後は startCommand から `db:migrate` を外し、手動またはリリースフックで実行する形に改めてください。
 
 ### Gemini API設定
 名刺読み取り機能を使用する場合：
@@ -62,10 +90,21 @@ SQLiteデータベース用に1GBの永続ディスクが自動設定されま�
 
 ### アプリ起動しない場合
 1. 環境変数の設定確認
-2. データベースマイグレーション状況確認
-3. ログでエラー詳細を確認
+2. ログでエラー詳細を確認
+3. `db:migrate` が startCommand で失敗していないかログ検索（"Migrating" / エラー）
 
 ## 更新方法
-1. Gitにコードをプッシュ
-2. Render が自動的に再デプロイ実行
-3. 数分でデプロイ完了
+1. Git にコードをプッシュ
+2. Render が自動再デプロイ
+3. 起動時に自動 migrate（揮発 DB）
+4. 数分で反映
+
+## よくある質問
+Q. データが保持されません
+→ 仕様です。PostgreSQL を導入してください。
+
+Q. migrate が遅い/不要な気がする
+→ 開発初期の利便性優先です。PostgreSQL 移行後に外します。
+
+Q. Seed を入れたい
+→ 一時的に startCommand を `./bin/rails db:migrate db:seed && ./bin/rails server` に変更し、デプロイ後元に戻す。
