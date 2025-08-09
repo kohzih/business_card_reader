@@ -12,7 +12,7 @@
 
 ## 📋 要件
 
-- Ruby 3.1+
+- Ruby 3.4.4+
 - Rails 8.0.2
 - SQLite3
 - Google Gemini API キー
@@ -67,7 +67,7 @@ bin/rails server
 - **AI API**: Google Gemini 2.5 Flash
 - **画像処理**: Active Storage
 - **フロントエンド**: Hotwire (Turbo + Stimulus)
-- **スタイリング**: Tailwind CSS
+- **スタイリング**: カスタムCSS（Utility-first スタイル）
 
 ## 📂 プロジェクト構造
 
@@ -123,6 +123,8 @@ bundle exec brakeman
 
 ## 🚢 デプロイ
 
+### Kamal（Docker）デプロイ
+
 本アプリケーションはKamalを使用したDocker化デプロイに対応しています。
 
 ```bash
@@ -135,6 +137,15 @@ bin/kamal logs
 # コンソールアクセス
 bin/kamal console
 ```
+
+### Render.com デプロイ
+
+Render.comでの簡単デプロイも可能です：
+
+1. `render.yaml`設定ファイルが用意済み
+2. GitHubリポジトリを接続するだけで自動デプロイ
+3. 無料プランで利用可能
+4. 詳細な手順は`DEPLOY_RENDER.md`を参照
 
 ## 🔒 セキュリティ
 
