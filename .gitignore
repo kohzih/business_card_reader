@@ -63,3 +63,6 @@ Thumbs.db
 
 # Ignore coverage reports
 /coverage/
+
+# Ignore project instructions file
+名刺アプリ指示書.md
