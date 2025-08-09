@@ -3,7 +3,8 @@ services:
     name: business-card-reader
     env: ruby
     buildCommand: "./bin/rails assets:precompile"
-    startCommand: "./bin/rails server"
+    # migrate を起動前に毎回実行（Free/SQLite の揮発環境で最速起動用）
+    startCommand: "./bin/rails db:migrate && ./bin/rails server"
     plan: free
     region: singapore
     branch: main
@@ -17,7 +18,3 @@ services:
         value: true
       - key: SECRET_KEY_BASE
         generateValue: true
-    disk:
-      name: sqlite-data
-      mountPath: /opt/render/project/src/storage
-      sizeGB: 1
