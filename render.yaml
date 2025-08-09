@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: business-card-reader
+    env: ruby
+    buildCommand: "./bin/rails assets:precompile"
+    startCommand: "./bin/rails server"
+    plan: free
+    region: singapore
+    branch: main
+    healthCheckPath: /up
+    envVars:
+      - key: RAILS_ENV
+        value: production
+      - key: RAILS_SERVE_STATIC_FILES
+        value: true
+      - key: RAILS_LOG_TO_STDOUT
+        value: true
+      - key: SECRET_KEY_BASE
+        generateValue: true
+    disk:
+      name: sqlite-data
+      mountPath: /opt/render/project/src/storage
+      sizeGB: 1
