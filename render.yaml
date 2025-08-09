@@ -2,7 +2,7 @@ services:
   - type: web
     name: business-card-reader
     env: ruby
-    buildCommand: "./bin/rails assets:precompile"
+    buildCommand: "bundle config set without 'development test' && bundle install && ./bin/rails assets:precompile"
     # migrate を起動前に毎回実行（Free/SQLite の揮発環境で最速起動用）
     startCommand: "./bin/rails db:migrate && ./bin/rails server"
     plan: free
