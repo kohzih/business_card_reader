@@ -10,6 +10,6 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Business card reading application routes
-  root 'business_cards#new'
-  resources :business_cards, only: [:new, :create, :show]
+  root "business_cards#new"
+  resources :business_cards, only: [ :new, :create, :show ]
 end
