@@ -13,7 +13,7 @@
 ## 📋 要件
 
 - Ruby 3.4.4+
-- Rails 8.0.2
+- Rails 8.1.4.1
 - SQLite3
 - Google Gemini API キー
 
@@ -62,7 +62,7 @@ bin/rails server
 
 ## 🏗 技術スタック
 
-- **フレームワーク**: Rails 8.0.2
+- **フレームワーク**: Rails 8.1.4.1
 - **データベース**: SQLite3
 - **AI API**: Google Gemini 2.5 Flash
 - **画像処理**: Active Storage

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Rails 8.0.2 application named `BusinessCardReader` that provides business card image analysis and data extraction using Google Gemini 2.5 Flash API. The application allows users to upload business card images and automatically extracts structured information such as names, companies, contact details, and addresses. It uses modern Rails features including Hotwire (Turbo + Stimulus), SQLite databases, and supports both Docker deployment via Kamal and Render.com deployment.
+This is a Rails 8.1.4.1 application named `BusinessCardReader` that provides business card image analysis and data extraction using Google Gemini 2.5 Flash API. The application allows users to upload business card images and automatically extracts structured information such as names, companies, contact details, and addresses. It uses modern Rails features including Hotwire (Turbo + Stimulus), SQLite databases, and supports both Docker deployment via Kamal and Render.com deployment.
 
 ## Development Commands
 
